@@ -7,20 +7,22 @@
   </head>
 
   <body>
-      <div id="Container">
+      <div id="container">
         <div id="home-content">
-          <p>Best score : <span id="bestScore">0</span></p>
+          <!--<p>Best score : <span id="bestScore">0</span></p>-->
           <h1 id="gameTitle">Color Rush</h1>
           <div class="carreCouleur" id="mainCarre"></div>
-          <div class="select">
-            <select name="mode" class="modeSelection">
-              <option value="RGB">RGB</option>
-              <option value="HSL">HSL</option>
-              <option value="RGBA">RGBA</option>
-              <option value="CMJ">CMJ</option>
-            </select>
+          <div class="select-play-container">
+            <div class="select">
+              <select name="mode" class="modeSelection">
+                <option value="RGB">RGB</option>
+                <option value="HSL">HSL</option>
+                <option value="RGBA">RGBA</option>
+                <option value="CMJ">CMJ</option>
+              </select>
+            </div>
+            <div id="playButton"> Play </div>
           </div>
-          <div id="playButton"> Play </div>
           <a href="#explications"><div class="bottomArrow"></div></a>
         </div>
       </div>
