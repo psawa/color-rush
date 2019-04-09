@@ -1,7 +1,8 @@
 //Selectors
 let mainCarre = document.querySelector('#mainCarre');
 let playButton = document.querySelector('#playButton');
-let accueil = document.querySelector('#accueil');
+let homeContent = document.querySelector('#home-content');
+let container = document.querySelector('#container')
 let bpmAccueil = 130;
 let bpmGame= 150;
 let mainAudio = new Audio('audio/main.mp3')
@@ -34,7 +35,7 @@ function randomInt(min,max){
 }
 
 playButton.addEventListener('click', function(){
-  accueil.style.display = 'none';
+  homeContent.style.display = 'none';
 })
 
 let game = {
