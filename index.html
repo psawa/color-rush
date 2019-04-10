@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Color rush</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
 
-  <body>
-      <div id="container">
-        <div id="home-content">
-          <!--<p>Best score : <span id="bestScore">0</span></p>-->
-          <h1 id="gameTitle">Color Rush</h1>
-          <div class="carreCouleur" id="mainCarre"></div>
-          <div class="select-play-container">
-            <div class="select">
-              <select name="mode" class="modeSelection">
-                <option value="RGB">RGB</option>
-                <option value="HSL">HSL</option>
-                <option value="RGBA">RGBA</option>
-                <option value="CMJ">CMJ</option>
-              </select>
-            </div>
-            <div id="playButton"> Play </div>
-          </div>
-          <a href="#explications"><div class="bottomArrow"></div></a>
+<head>
+  <meta charset="utf-8">
+  <title>Color rush</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="home-content">
+      <!--<p>Best score : <span id="bestScore">0</span></p>-->
+      <h1 id="gameTitle">Color Rush</h1>
+      <div class="carreCouleur" id="mainCarre"></div>
+      <div class="select-play-container">
+        <div class="select">
+          <select id="modeSelection"name="mode" class="modeSelection">
+            <option value="rgb">RGB</option>
+            <option value="hsl">HSL</option>
+            <option value="rgba">RGBA</option>
+            <option value="cmj">CMJ</option>
+          </select>
         </div>
+        <div id="playButton" class="button"> PLAY </div>
       </div>
-      <div id="explications">
-        #Là on va expliquer nos connaissances du cours, et les fonctions du script
-        <br><br>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <br><br>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </div>
+      <a href="#explications">
+        <div class="bottomArrow"></div>
+      </a>
+    </div>
+  </div>
+  <div class="seconde-partie">
+    <div id="explications">
+      <h1>Notes sur le jeu : </h1>
+      <p>Color Rush est un jeu de perception et de vitesse.</p>
+      <h2>Règles</h2>
+      <h2>Fonctionnement</h2>
+      <h3>Langages utilisés</h3>
+      <h3>Architecture</h3>
+      <h3>Manipulation des espaces de couleur</h3>
+      #Parler du fait que les couleurs produites sont différentes des couleurs perçues https://en.wikipedia.org/wiki/Color_difference
+      <h2>Limites & horizons</h2>
+      #Hackable mais déhackable en utilisant canvas et en bloquant colorzilla
+      #Jeu peu précis puisque dépend de la qualité de l'écran
+      #Dépend aussi des apps telles que f.lux
+      <br><br>
+    </div>
+  </div>
 
-    <script src="script.js" charset="utf-8"></script>
-  </body>
+
+  <script src="script.js" charset="utf-8"></script>
+</body>
+
 </html>

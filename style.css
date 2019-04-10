@@ -4,9 +4,18 @@
   margin: 0;
   font-family: Asap, sans-serif;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body{
-  background: #000207
+  background: #000207;
+}
+
+#container{
+  background: #00163a;
+  height: 100vh;
+  /* outline:1px solid blue; */
 }
 
 #home-content{
@@ -19,11 +28,7 @@ body{
   position: relative;
 }
 
-#container{
-  background: #182966;
-  height: 100vh;
-  /* outline:1px solid blue; */
-}
+
 .carreCouleur{
   /* outline: 1px solid black; */
   width: 250px;
@@ -34,7 +39,7 @@ body{
 }
 
 /*Select*/
-select {
+#home-content select {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
@@ -44,9 +49,15 @@ select {
   border: 0 !important;
   background: #2c3e50;
   background-image: none;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 0 0 .5em;
+  color: #fff;
+  cursor: pointer;
 }
 /* Custom Select */
-.select {
+#home-content .select {
   float: left;
   margin: auto;
   position: relative;
@@ -59,19 +70,12 @@ select {
   border-radius: .25em;
   margin-bottom: 50px;
 }
-select {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0 0 0 .5em;
-  color: #fff;
-  cursor: pointer;
-}
-select::-ms-expand {
+
+#home-content select::-ms-expand {
   display: none;
 }
 /* Arrow */
-.select::after {
+#home-content .select::after {
   content: '\25BC';
   position: absolute;
   top: 0;
@@ -82,23 +86,23 @@ select::-ms-expand {
   pointer-events: none;
 }
 /* Transition */
-.select:hover::after {
+#home-content .select:hover::after {
   color: #FFF;
 }
-.select::after {
+#home-content .select::after {
   -webkit-transition: .25s all ease;
   -o-transition: .25s all ease;
   transition: .25s all ease;
 }
 
-#gameTitle{
+#home-content #gameTitle{
   text-align: center;
   font-size: 3em;
   color: white;
   padding: 60px;
 }
 
-#playButton{
+.button{
   float: right;
   width:100px;
   height: 48px;
@@ -108,7 +112,7 @@ select::-ms-expand {
   text-align: center;
   font-size: 1.6em;
   vertical-align: middle;
-  line-height: 40px;
+  line-height: 45px;
   /* margin: 20px auto; */
   cursor:pointer;
 }
@@ -137,4 +141,19 @@ select::-ms-expand {
   width: 220px;
   margin: auto;
   height: 80px;
+}
+
+
+.seconde-partie{
+  background: #00163a;
+}
+
+#explications h1{
+  background-color: #eb4d4b;
+}
+#explications h2{
+  background-color: #f0932b;
+}
+#explications h3{
+  background-color: #686de0;
 }
