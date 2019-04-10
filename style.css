@@ -17,6 +17,9 @@ body{
   height: 100vh;
   /* outline:1px solid blue; */
 }
+#container p{
+  color:white;
+}
 
 #home-content{
   width: 500px;
@@ -156,4 +159,101 @@ body{
 }
 #explications h3{
   background-color: #686de0;
+}
+.squares-zone{
+  top:100px;
+  width: 800px;
+  height: 300px;
+  margin: auto;
+  display: flex;
+  /* transition: all 3s ease-in-out; */
+  /* outline:2px solid red; */
+}
+#my-square-zone, #target-square-zone{
+  /* width: 250px; */
+  /* height: 250; */
+  transition: transform 3s ease-in-out;
+}
+
+#my-square-zone{
+  /* float:right; */
+}
+
+#target-square-zone{
+  /* float:left; */
+}
+
+.time-zone{
+  text-align: center;
+  font-size: 2em;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  color: #AAA;
+}
+
+
+.message{
+  display:inline;
+  position:absolute;
+  font-size: 7em;
+  animation: messageAnimation 1.5s;
+  left: 50%;
+  top: 50%;
+  -webkit-text-shadow: -2px -2px 0px #000000;
+  -moz-text-shadow: -2px -2px 0px #000000;
+  text-shadow: -4px -3px 0px #79a7e0;
+}
+
+#game-content{
+  position: relative;
+}
+
+@keyframes messageAnimation {
+  0% {
+    transform: scale(0.3);
+    filter: opacity(100%);
+  }
+  30% {
+    transform:scale(1);
+    filter:opacity(100%);
+  }
+  100% {
+    transform: scale(1.6);
+    filter:opacity(0%);
+  }
+}
+
+#sliders-zone{
+  clear: both;
+  outline: 1px solid white;
+  margin:auto;
+  width: 420px;
+  z-index: 1;
+}
+#sliders-zone input{
+  width: 320px;
+}
+
+#checkButton{
+  margin: auto;
+}
+
+.percentage{
+  position:absolute;
+  z-index: -1;
+  font-size: 3em;
+  left: 50%;
+  top:50%;
+  font-weight: bold;
+}
+.percentage p{
+  color:white;
+}
+
+#level-container{
+  font-size: 2em;
+}
+
+#current-level{
+  font-weight: bold;
 }

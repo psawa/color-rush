@@ -15,7 +15,7 @@
       <div class="carreCouleur" id="mainCarre"></div>
       <div class="select-play-container">
         <div class="select">
-          <select id="modeSelection"name="mode" class="modeSelection">
+          <select id="modeSelection" name="mode" class="modeSelection">
             <option value="rgb">RGB</option>
             <option value="hsl">HSL</option>
             <option value="rgba">RGBA</option>
@@ -28,6 +28,40 @@
         <div class="bottomArrow"></div>
       </a>
     </div>
+
+    <div id="game-content" style="display:none">
+      <div class="level-zone">
+        <p id="level-container">Level : <span id="current-level">1</span></p>
+      </div>
+      <div class="time-zone">
+        <p>Time left : <span id="current-time">20</span>s</p>
+      </div>
+      <div class="squares-zone">
+        <div id="target-square-zone">
+          <p>Cible</p>
+          <div class="carreCouleur" id="targetSquare"></div>
+        </div>
+        <div id="checkButton" class="button"> CHECK </div>
+        <div id="my-square-zone">
+          <p>Mon carré</p>
+          <div class="carreCouleur" id="mySquare"></div>
+        </div>
+      </div>
+      <div id="sliders-zone">
+        <i>R:</i>
+        <input type="range" id="slider1" min="0" max="255" value="255"/>
+        <b id="valeur1">255</b>
+        <br/>
+        <i>G:</i>
+        <input type="range" id="slider2" min="0" max="255" value="255"/>
+        <b id="valeur2">255</b>
+        <br/>
+        <i>B:</i>
+        <input type="range" id="slider3" min="0" max="255" value="255"/>
+        <b id="valeur3">255</b>
+        <br/>
+      </div>
+    </div>
   </div>
   <div class="seconde-partie">
     <div id="explications">
@@ -37,6 +71,7 @@
       <h2>Fonctionnement</h2>
       <h3>Langages utilisés</h3>
       <h3>Architecture</h3>
+      <h3>Transformations</h3>
       <h3>Manipulation des espaces de couleur</h3>
       #Parler du fait que les couleurs produites sont différentes des couleurs perçues https://en.wikipedia.org/wiki/Color_difference
       <h2>Limites & horizons</h2>
