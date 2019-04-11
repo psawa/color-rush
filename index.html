@@ -12,7 +12,7 @@
     <div id="home-content">
       <!--<p>Best score : <span id="bestScore">0</span></p>-->
       <h1 id="gameTitle">Color Rush</h1>
-      <div class="carreCouleur" id="mainCarre"></div>
+      <div class="carreCouleur" id="mainCarre" style="background:#888"></div>
       <div class="select-play-container">
         <div class="select">
           <select id="modeSelection" name="mode" class="modeSelection">
@@ -33,33 +33,37 @@
       <div class="level-zone">
         <p id="level-container">Level : <span id="current-level">1</span></p>
       </div>
-      <div class="time-zone">
+      <div id="time-zone">
         <p>Time left : <span id="current-time">20</span>s</p>
       </div>
-      <div class="squares-zone">
+      <div id="squares-zone">
         <div id="target-square-zone">
-          <p>Cible</p>
+          <p id="cibleTag">Cible</p>
           <div class="carreCouleur" id="targetSquare"></div>
         </div>
         <div id="checkButton" class="button"> CHECK </div>
         <div id="my-square-zone">
-          <p>Mon carré</p>
+          <p id="monCarreTag">Mon carré</p>
           <div class="carreCouleur" id="mySquare"></div>
         </div>
       </div>
       <div id="sliders-zone">
         <i>R:</i>
         <input type="range" id="slider1" min="0" max="255" value="255"/>
-        <b id="valeur1">255</b>
+        <i id="valeur1">255</i>
         <br/>
         <i>G:</i>
         <input type="range" id="slider2" min="0" max="255" value="255"/>
-        <b id="valeur2">255</b>
+        <i id="valeur2">255</i>
         <br/>
         <i>B:</i>
         <input type="range" id="slider3" min="0" max="255" value="255"/>
-        <b id="valeur3">255</b>
+        <i id="valeur3">255</i>
         <br/>
+      </div>
+      <div id="menu-or-retry-zone" style="display:none">
+        <div id="go-to-menu-button" class="button"> Menu </div>
+        <div id="play-again-button" class="button"> Play again </div>
       </div>
     </div>
   </div>

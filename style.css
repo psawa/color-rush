@@ -106,8 +106,9 @@ body{
 }
 
 .button{
+  font-weight: lighter;
   float: right;
-  width:100px;
+  min-width:100px;
   height: 48px;
   background-color:#2c3e50;
   color: white;
@@ -115,9 +116,11 @@ body{
   text-align: center;
   font-size: 1.6em;
   vertical-align: middle;
-  line-height: 45px;
+  line-height: 30px;
   /* margin: 20px auto; */
   cursor:pointer;
+  padding: 10px;
+
 }
 
 #explications{
@@ -160,13 +163,15 @@ body{
 #explications h3{
   background-color: #686de0;
 }
-.squares-zone{
-  top:100px;
+#squares-zone{
+  top:0px;
   width: 800px;
   height: 300px;
   margin: auto;
   display: flex;
-  /* transition: all 3s ease-in-out; */
+  transition: all 3s ease-in-out;
+  position: relative;
+  z-index:8;
   /* outline:2px solid red; */
 }
 #my-square-zone, #target-square-zone{
@@ -183,7 +188,7 @@ body{
   /* float:left; */
 }
 
-.time-zone{
+#time-zone{
   text-align: center;
   font-size: 2em;
   margin-top: 20px;
@@ -194,6 +199,7 @@ body{
 
 .message{
   display:inline;
+  text-align: left;
   position:absolute;
   font-size: 7em;
   animation: messageAnimation 1.5s;
@@ -202,6 +208,7 @@ body{
   -webkit-text-shadow: -2px -2px 0px #000000;
   -moz-text-shadow: -2px -2px 0px #000000;
   text-shadow: -4px -3px 0px #79a7e0;
+  z-index: 50
 }
 
 #game-content{
@@ -225,10 +232,11 @@ body{
 
 #sliders-zone{
   clear: both;
-  outline: 1px solid white;
   margin:auto;
   width: 420px;
   z-index: 1;
+  color:white;
+  transition: all 1s ease-in-out;
 }
 #sliders-zone input{
   width: 320px;
@@ -256,4 +264,111 @@ body{
 
 #current-level{
   font-weight: bold;
+}
+/*Stylizing slider*/
+/* Special styling for WebKit/Blink */
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 14.3px 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #0071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1.4px solid #000000;
+  height: 37px;
+  width: 15px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -14.5px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #0082c3;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #0071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1.4px solid #000000;
+  height: 37px;
+  width: 15px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #006090;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+  background: #0071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1.4px solid #000000;
+  height: 37px;
+  width: 15px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  height: 8.4px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #0071a9;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #0082c3;
+}
+
+input[type=range]#slider1::-webkit-slider-runnable-track {
+  background: #F00;
+}
+input[type=range]#slider2::-webkit-slider-runnable-track {
+  background: #0F0;
+}
+input[type=range]#slider3::-webkit-slider-runnable-track {
+  background: #00F;
+}
+
+#menu-or-retry-zone{
+  display: flex;
+  position: fixed;
+  left:50%;
+  top:50%;
+  justify-content: space-between;
+  width: 300px;
+  z-index: 0;
 }
