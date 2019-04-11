@@ -28,7 +28,8 @@ let timeUpAudio = new Audio('audio/timeUp.mp3');
 let youLoseAudio = new Audio('audio/youLose.mp3');
 let youWinAudio = new Audio('audio/youWin.mp3');
 let roundAudios = new Array();
-let perfectAudio = new Audio('audio/perfect.mp3')
+let gameWinAudio = new Audio('audio/musicWin.mp3');
+let perfectAudio = new Audio('audio/perfect.mp3');
 roundAudios[0] = new Audio('audio/round1.mp3');
 roundAudios[1] = new Audio('audio/round2.mp3');
 roundAudios[2] = new Audio('audio/round3.mp3');
@@ -317,7 +318,7 @@ let game = {
   },
   start: function() {
     //Démarre le jeu (musique, etc..)
-    this.state = 'playing';
+
     this.level = 0;
     document.querySelector('#explications').style.display = 'none';
     gameContent.style.display='none';
@@ -327,15 +328,21 @@ let game = {
     }, 100)
     setTimeout(function() {
       affichage.newMessage('3..');
-      audio3.play();
+      if (game.state==="menu") {
+        audio3.play();
+      }
     }, 800)
     setTimeout(function() {
       affichage.newMessage('2..');
-      audio2.play();
+      if (game.state==="menu") {
+        audio2.play();
+      }
     }, 1600)
     setTimeout(function() {
       affichage.newMessage('1..');
-      audio1.play();
+      if (game.state==="menu") {
+        audio1.play();
+      }
     }, 2400)
     setTimeout(function() {
       affichage.newMessage('GO');

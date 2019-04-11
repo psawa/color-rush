@@ -237,6 +237,7 @@ body{
   z-index: 1;
   color:white;
   transition: all 1s ease-in-out;
+  /* outline: 1px solid yellow; */
 }
 #sliders-zone input{
   width: 320px;
