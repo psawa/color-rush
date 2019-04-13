@@ -74,7 +74,7 @@
       <p>Color Rush est un jeu de perception et de vitesse, basé sur la reproduction de couleurs.</p>
       <h2>Règles</h2>
       <p>À chaque niveau, vous avez un temps limité pour reproduire une couleur en utilisant des curseurs. Mais le temps alloué se réduit en accédant à des niveaux supérieurs.<p>
-      <p>À la fin du temps imparti, l'algorithme <a href="#algorithme">(décrit plus tard)</a>  calculera la distance entre la couleur que vous avez créé, et celle que vous auriez du créer. Pour accéder au niveau suivant, il faut que cette distance soit inférieure à 20%. Autrement dit, les couleurs doivent se ressembler à au moins 80%.</p>
+      <p>À la fin du temps imparti, l'algorithme <a href="#algorithme">(décrit plus tard)</a>  calculera la distance entre la couleur que vous avez créé, et celle que vous auriez du créer. Pour accéder au niveau suivant, il faut que cette distance soit inférieure à 20%. Donc les couleurs doivent se ressembler à au moins 80%.</p>
       <p>Vous pouvez accélérer le compte à rebours, si vous pensez avoir déjà trouvé une couleur proche de la couleur cible en avance.</p>
       <h3>Modes</h3>
       <p>Les différents modes permettent de choisir la manière dont vous produirez les couleurs : À l'aide de l'espace de couleur RGB, HSL, ou CMJ. Ces espaces de couleur sont décrits de manière plus détaillée <a href="#espaces-couleur">dans la partie dédiée</a> .</p>
@@ -132,7 +132,7 @@
       <h4>La rotation </h4>
       <p>Elle a été utilisée uniquement pour fabriquer la flèche qui pointe vers le bas dans le menu : C'est une div carrée qui n'a que deux "border" contigus, et qui a été rotationnée de 45°.</p>
       <h3 id="espaces-couleur">Espaces de couleur</h3>
-      <p>Les modes de jeu proposés correspondent à 3 espaces de couleur : Rgb, HSL, et CMJ. Nous n'avons pas inclut RGBA car elle requiert une quatrième composante, ce qui était laborieux à mettre en place.</p>
+      <p>Les modes de jeu proposés correspondent à 3 espaces de couleur : Rgb, HSL, et CMJ. Nous n'avons pas inclut l'espace RGBA car il requiert une quatrième composante, ce qui était laborieux à mettre en place.</p>
       <h4>RGB</h4>
       <p>L'espace de couleur RGB (red, green, blue) est un espace de synthèse additive, dans lequel les couleurs sont définies par leur quantité de rouge, de vert, et de bleu (Les 3 couleurs primaires additives).</p>
       <p>La particularité d'un espace additif est que sa fonction est d'apporter des couleurs à un fond noir.</p>

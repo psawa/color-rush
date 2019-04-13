@@ -11,8 +11,8 @@ let mainCarre = document.querySelector('#mainCarre');
 let playButton = document.querySelector('#playButton');
 let homeContent = document.querySelector('#home-content');
 let bpmAccueil = 130;
-let mainAudio = new Audio('audio/main.mp3')
-mainAudio.play();
+let menuAudio = new Audio('audio/menu.mp3')
+menuAudio.play();
 let selectMode = document.querySelector('#modeSelection')
 
 //Éléments du jeu
@@ -42,7 +42,6 @@ roundAudios[8] = new Audio('audio/round9.mp3');
 roundAudios[9] = new Audio('audio/finalRound.mp3');
 
 
-
 let mySquareElement = document.querySelector('#mySquare');
 let targetSquareElement = document.querySelector('#targetSquare');
 let gameContent = document.querySelector('#game-content');
@@ -54,11 +53,11 @@ let menuOrRetryZone = document.querySelector('#menu-or-retry-zone');
 let playAgainButton = document.querySelector('#play-again-button');
 let goToMenuButton = document.querySelector('#go-to-menu-button');
 let slider1 = document.querySelector('#slider1'); //R if Rgb, H if HSL...
+let valeur1 = document.querySelector('#valeur1');
 let slider2 = document.querySelector('#slider2'); //G if RGb, S if HSL..
+let valeur2 = document.querySelector('#valeur2');
 let slider3 = document.querySelector('#slider3'); //B if RGB, L if HSL..
-//let slider4 = document.querySelector('#slider4');//A from rgba
-
-
+let valeur3 = document.querySelector('#valeur3');
 
 //Élements persistents
 let container = document.querySelector('#container')
@@ -71,8 +70,8 @@ let blinkingInterval = null;
 */
 
 //Accueil
-mainAudio.addEventListener('play', animateMainCarre)
-mainAudio.addEventListener('ended', function() {
+menuAudio.addEventListener('play', animateMainCarre)
+menuAudio.addEventListener('ended', function() {
   //redémarre la musique de l'accueil lorsqu'elle est finie
   clearInterval(blinkingInterval);
   this.currentTime = 0;
@@ -82,11 +81,9 @@ mainAudio.addEventListener('ended', function() {
 playButton.addEventListener('click', function() {
   //Au clic du bouton play,
   //Le contenu de la page d'accueil n'est plus affiché
-  homeContent.style.display = 'none';
-
   //La musique de l'accueil est coupée et remise à zéro
-  mainAudio.pause();
-  mainAudio.currentTime = 0;
+  menuAudio.pause();
+  menuAudio.currentTime = 0;
   //L'animation de l'accueil s'arrête
   clearInterval(blinkingInterval);
 
@@ -121,27 +118,27 @@ slider3.addEventListener('input', change3);
 
 function change1(event) {
   if (game.mode === 'rgb') {
-    document.querySelector('#valeur1').innerHTML = event.target.value;
+    valeur1.innerHTML = event.target.value;
   }
   updateMySquareColor();
 }
 
 function change2(event) {
   if (game.mode === 'rgb') {
-    document.querySelector('#valeur2').innerHTML = event.target.value;
+    valeur2.innerHTML = event.target.value;
   }
   updateMySquareColor();
 }
 
 function change3(event) {
   if (game.mode === 'rgb') {
-    document.querySelector('#valeur3').innerHTML = event.target.value;
+    valeur3.innerHTML = event.target.value;
   }
   updateMySquareColor();
 }
 
 function updateMySquareColor() {
-  mySquare.color = `rgb(${document.querySelector('#valeur1').innerHTML},${document.querySelector('#valeur2').innerHTML},${document.querySelector('#valeur3').innerHTML})`;
+  mySquare.color = `rgb(${valeur1.innerHTML},${valeur2.innerHTML},${valeur3.innerHTML})`;
 }
 
 function parseBpmIntoInterval(bpm) {
@@ -188,11 +185,9 @@ function parseIntoRgb(code, mode = game.mode) {
     code = code.substring(0, code.length - 1); //et on enlève le dernier
     codeArray = code.split(','); //Et on transforme en tableau
     return codeArray;
-  } else if (mode === "rgba") {
-    null;
   } else if (mode === "hsl") {
     null
-  } else if (mode === "cmj") {
+  } else if (mode === "cmy") {
     null
   }
 }
@@ -266,7 +261,6 @@ let game = {
     //appelle parseIntoRgb
     let distance = deltaE(targetComponentsLab, myComponentsLab).toFixed(2); //merci github
     this.currentDistance = distance;
-    console.log(distance);
     affichage.checking();
     setTimeout(function() {
       if (game.currentDistance <= game.seuil) {
@@ -318,7 +312,7 @@ let game = {
   },
   start: function() {
     //Démarre le jeu (musique, etc..)
-
+    homeContent.style.display = 'none';
     this.level = 0;
     document.querySelector('#explications').style.display = 'none';
     gameContent.style.display='none';
@@ -360,7 +354,7 @@ let game = {
     if (this.state != 'menu') {
       gameAudio.pause();
       gameAudio.currentTime = 0;
-      mainAudio.play();
+      menuAudio.play();
       gameContent.style.display = 'none';
       homeContent.style.display = '';
       document.querySelector('#explications').style.display = ''
@@ -447,7 +441,7 @@ let affichage = {
   },
   newPercentage: function() {
     let newPercentageDiv = document.createElement('p');
-    let newPercentage = document.createTextNode(game.currentDistance + '%');
+    let newPercentage = document.createTextNode(100-game.currentDistance + '%');
     newPercentageDiv.appendChild(newPercentage);
     newPercentageDiv.classList.add('percentage');
     squaresZone.appendChild(newPercentageDiv);
