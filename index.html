@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <title>Color rush</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -18,8 +20,7 @@
           <select id="modeSelection" name="mode" class="modeSelection">
             <option value="rgb">RGB</option>
             <option value="hsl">HSL</option>
-            <option value="rgba">RGBA</option>
-            <option value="cmj">CMJ</option>
+            <option value="cmy">CMY</option>
           </select>
         </div>
         <div id="playButton" class="button"> PLAY </div>
@@ -70,13 +71,13 @@
   <div class="seconde-partie">
     <div id="explications">
       <h1>Notes sur le jeu : </h1>
-      <p>Color Rush est un jeu de perception et de vitesse, basé sur la reproduction de couleurs par différents procédés.</p>
+      <p>Color Rush est un jeu de perception et de vitesse, basé sur la reproduction de couleurs.</p>
       <h2>Règles</h2>
       <p>À chaque niveau, vous avez un temps limité pour reproduire une couleur en utilisant des curseurs. Mais le temps alloué se réduit en accédant à des niveaux supérieurs.<p>
-      <p>À la fin du temps imparti, l'algorithme calculera la distance entre la couleur que vous avez créé, et celle que vous auriez du créer. Pour accéder au niveau suivant, il faut que cette distance soit inférieure à 20%. Autrement dit, les couleurs doivent se ressembler à au moins 80%. Le calcul de ressemblance se fait selon un algorithme qui sera décrit plus loin dans les explications.</p>
+      <p>À la fin du temps imparti, l'algorithme <a href="#algorithme">(décrit plus tard)</a>  calculera la distance entre la couleur que vous avez créé, et celle que vous auriez du créer. Pour accéder au niveau suivant, il faut que cette distance soit inférieure à 20%. Autrement dit, les couleurs doivent se ressembler à au moins 80%.</p>
       <p>Vous pouvez accélérer le compte à rebours, si vous pensez avoir déjà trouvé une couleur proche de la couleur cible en avance.</p>
       <h3>Modes</h3>
-      <p>Les différents modes permettent de choisir la manière dont vous produirez les couleurs : À l'aide de l'espace de couleur RGB, HSL, ou CMJ. Ces espaces de couleur sont décrits de manière plus détaillée dans la partie dédiée.</p>
+      <p>Les différents modes permettent de choisir la manière dont vous produirez les couleurs : À l'aide de l'espace de couleur RGB, HSL, ou CMJ. Ces espaces de couleur sont décrits de manière plus détaillée <a href="#espaces-couleur">dans la partie dédiée</a> .</p>
 
       <h3>Objectif</h3>
       <p>L'objectif est d'atteindre le niveau 10.</p>
@@ -109,7 +110,7 @@
       <p>Il gère le temps à chaque niveau. Il définit quel est le temps alloué, et renvoie à la méthode de l'objet jeu qui vérifie les scores, lorsque le temps est écoulé ou lorsqu'il est arrêté manuellement, quand l'utilisateur appuie sur le bouton Check.</p>
 
 
-      <h3>Algorithme de calcul de ressemblance des couleurs</h3>
+      <h3 id="algorithme">Algorithme de calcul de ressemblance des couleurs</h3>
       <p>Avant d'entrer dans les explications, il faut noter que quelque soit l'espace de couleur utilisé pour produire des couleurs à l'écran, le navigateur effectuera une conversion et les affichera en RGB, systématiquement. Les calculs de distances seront donc indépendants du mode de jeu choisi.</p>
       <p>La première méthode qui viendrait à l'idée serait de calculer la distance euclidienne entre les deux points dans l'espace 3D RGB</p>
       <img src="images/euclidienne.svg" class="formula">
@@ -118,7 +119,7 @@
       <img src="images/deltaE.svg" class="formula" alt="">
       <p>Cette formule permet de jouer agréablement car effectivement, deux couleurs qui se ressemblent à nos yeux d'humains sont calculées comme proche, et inversement.</p>
       <p>Elle utilise l'espace de couleur CIELAB.</p>
-      <p>Le jeu convertir alors les couleurs de rgb vers cielab, et calcule la distance entre deux couleurs CIELAB grâce à cette formule. Nous avons pour ces deux fonctionnalités utilisés des fonctions open-source <a href="https://github.com/antimatter15/rgb-lab/blob/master/color.js">(Sur github)</a> </p>
+      <p>Le jeu convertit alors les couleurs de RGB vers CIELAB, et calcule la distance entre les deux couleurs CIELAB grâce à la formule ci-desus. Nous avons pour ces deux fonctionnalités utilisé des fonctions open-source <a href="https://github.com/antimatter15/rgb-lab/blob/master/color.js">(Sur github)</a>.</p>
 
 
       <h3>Transformations</h3>
@@ -130,36 +131,43 @@
       <p>Les tranlations sont utilisées pour déplacer les carrés lors des animations pour la vérification des distances de couleur, de défaite, et bien sûr dans la fonction "clear" qui réinitialise le terrain de jeu.</p>
       <h4>La rotation </h4>
       <p>Elle a été utilisée uniquement pour fabriquer la flèche qui pointe vers le bas dans le menu : C'est une div carrée qui n'a que deux "border" contigus, et qui a été rotationnée de 45°.</p>
-      <h3>Manipulation des espaces de couleur</h3>
+      <h3 id="espaces-couleur">Espaces de couleur</h3>
       <p>Les modes de jeu proposés correspondent à 3 espaces de couleur : Rgb, HSL, et CMJ. Nous n'avons pas inclut RGBA car elle requiert une quatrième composante, ce qui était laborieux à mettre en place.</p>
       <h4>RGB</h4>
-      <p>L'espace de couleur RGB est ...</p>
+      <p>L'espace de couleur RGB (red, green, blue) est un espace de synthèse additive, dans lequel les couleurs sont définies par leur quantité de rouge, de vert, et de bleu (Les 3 couleurs primaires additives).</p>
+      <p>La particularité d'un espace additif est que sa fonction est d'apporter des couleurs à un fond noir.</p>
+      <p>RGB est un espace de couleur adapté pour la synthèse d'image informatique, car le système visuel humain fonctionne (presque) de manière similaire.</p>
       <h4>HSL</h4>
-      <p>L'espace de couleur HSL est ...</p>
-      <h4>CMJ</h4>
-      <p>L'espace de couleur CMJ est ...</p>
+      <p>Abréviation de Hue Saturation Lightness, l'espace HSL définit une couleur par sa teinte, sa saturation, et sa luminance. </p>
+      <p>Cet espace existe car il est plus facile à prendre en main que l'espace RVB. La sélection de couleur est plus intuitive. C'est une approche psychologique de la synthèse de couleur. </p>
+      <p>À noter que cet espace a à l'origine été inventé lors du passage de l'image à la couleur : Il permettait d'encoder les images en couleur sans modifier profondément la technique d'encodage déjà existante : Il a suffit d'ajouter deux composantes "teinte" et "saturation" à la composante "Lumière", qui définissait à elle seule une image en nuances de gris.</p>
+      <h4>CMY</h4>
+      <p>L'espace CMY (Cyan magenta yellow, CMJ en français) est contrairement au RGB, un espace soustractif. Il sert principalement dans le domaine de l'impression.</p>
+      <p>La caractéristique d'un espace soustractif est qu'il a pour fonction de masquer un fond blanc. L'ancre réduit la luminosité, et empêche le blanc d'être reflété.</p>
+      <p>En réalité, l'impression utilise une variante du CMY : Le CMYK. Le K, "key", est le niveau de noir. C'est une question d'économie, afin de ne pas utiliser le mélange des 3 couleurs pour former du noir, noir qui est très présent dans l'impression.</p>
+      <h4>Parallèle entre RGB et CMY</h4>
+      <p>Le RGB a pour fonction de remplir un fond vide de couleur (noir), alors que le CMY a pour fonction de masquer un fond contenant toute les couleurs (blanc). </p>
+      <p>Les couleurs primaires du RGB sont le rouge vert et le bleu, alors que les couleurs primaires du CMY sont le cyan, magenta, et jaune. Le cyan et le magenta donneront du bleu, le cyan et le jaune donneront du rouge, et le cyan et le jaune donneront du vert. <img src="images/cercle-chromatique.svg" height = '200', width='200'style='margin:auto;display:block'> </p>
       <h3>Manipulation des éléments audio</h3>
       <p>L'expérience de jeu est mise en relief par des élements audio qui accompagnent les élements graphiques.</p>
-      <p>D'abbord les musiques d'ambiance. Celle de l'accueil a été crée par Thibo, et celles du jeu par TPRMX</p>
+      <p>D'abbord les musiques d'ambiance. Celle de l'accueil a été crée par Thibo, et celles du jeu par TPRMX.</p>
       <p>Ensuite, lors du compte à rebours, lors du passage à un niveau supérieur, et lors de l'annonce de la ressemblance des couleurs, des voix sont joués correspondante à la situation. Par exemple, l'algorithme de vérification des résultats est prévu pour lancer l'audio d'une voix qui crie "Perfect ! " si le pourcentage d'erreurs est inferieur à 3%, "GREAT ! " si inférieur à 6%, etc.</p>
-      <p>Tout cela est rendu possible grâce à la création d'objets audio ayant pour source le lien relatif du fichier audio. Ensuite, il faut appler la méthode play de cet objet pour lancer l'audio, la méthode pause pour le couper, la méthode set currentTime pour définir le time code de l'audio, le tout mélangé à des events listeners pour donner un résultat convenable.</p>
+      <p>Tout cela est rendu possible grâce à la création d'objets audio ayant pour source le lien relatif du fichier audio. Ensuite, il faut appler la méthode play de cet objet pour lancer l'audio, la méthode pause pour le couper, la méthode set currentTime pour définir le time code de l'audio, le tout mélangé à des events listeners pour donner un résultat intéressant.</p>
       <h2>Limites & horizons</h2>
       <h3>limites</h3>
       <h4>Sécurité</h4>
       <p>Le jeu est sympathique, mais absolument pas sécurisé. Les codes de couleurs sont visibles dans le code source de la page, en temps réel. Donc dans le mode RGB, il est très simple d'accéder au niveau 10 en recopiant les codes couleur trouvés dans le code source.</p>
-      <p>Une manière de palier à celà serait que les carrés ne soient pas des div, mais des canvas. Celà ferait que le code couleur ne s'afficherait pas dans l'inspecteur.</p>
-      <p>Il faudrait tout de même trouver un moyen de bloquer les extensions telles que colorZilla, qui permettent de copier n'importe quelle couleur visible dans le navugateur.</p>
+      <p>Une manière de palier à celà serait que les carrés ne soient pas des div, mais des canvas. Celà ferait que le code couleur ne s'afficherait pas dans l'inspecteur, car les carrés seraient lus comme des fichiers image, non pas des élements html.</p>
+      <p>Il faudrait tout de même trouver un moyen de bloquer les extensions telles que colorZilla, qui permettent de récupérer n'importe quelle couleur visible dans le navigateur.</p>
       <p>Mais même cela ne serait pas suffisant, car il existe également des logiciels type colorzilla installables sur l'ordinateur, qui seraient indétectables par le navigateur.</p>
       <h4>Précision</h4>
       <p>L'affichage des couleurs dépend de la qualité de l'écran. Ainsi, tout les joueurs ne sont pas sur le même pied d'égalité.</p>
-      <p>Il dépend aussi d'applications de filtre de couleurs, telles que F.lux qui permettent de filtrer la lumière bleu au coucher du soleil. </p>
+      <p>Il dépend aussi d'applications de filtre de couleurs, telles que F.lux qui permettent de filtrer la lumière bleue au coucher du soleil. </p>
       <h3>Horizons</h3>
       <p>Si tous les problèmes mentionnés étaient réglés, le jeu pourrait posséder un système de leaderboard online qui classe les scores des joueurs selont le mode de jeu.</p>
       <p>À une autre échelle, le jeu pourrait être une sorte de battle royale multijoueur, c'est à dire que les parties seraient joués en temps réel par un nombre important de joueurs, et qu'un seul joueur serait gagnant. Le gagant serait celui qui a survécu le plus longtemps.</p>
     </div>
   </div>
-
-
   <script src="script.js" charset="utf-8"></script>
 </body>
 
