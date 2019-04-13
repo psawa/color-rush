@@ -156,12 +156,19 @@ body{
 
 #explications h1{
   background-color: #eb4d4b;
+  margin-bottom: 10px;
 }
 #explications h2{
   background-color: #f0932b;
+  margin-bottom: 10px;
 }
 #explications h3{
   background-color: #686de0;
+  margin-bottom: 10px;
+}
+#explications h4{
+  background-color:#30336b;
+  margin-bottom: 10px;
 }
 #squares-zone{
   top:0px;
@@ -372,4 +379,19 @@ input[type=range]#slider3::-webkit-slider-runnable-track {
   justify-content: space-between;
   width: 300px;
   z-index: 0;
+}
+
+#explications p{
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+#explications ul{
+  padding-left: 50px;
+}
+.formula{
+  background-color:white;
+  margin:auto;
+  display: block;
+  margin-bottom: 8px; 
 }
