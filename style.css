@@ -361,15 +361,27 @@ input[type=range]:focus::-ms-fill-upper {
   background: #0082c3;
 }
 
-input[type=range]#slider1::-webkit-slider-runnable-track {
+/*Sliders RGB : on ajoute les couleurs correspondantes sur les tracks*/
+input[type=range].rgb#slider1::-webkit-slider-runnable-track {
   background: #F00;
 }
-input[type=range]#slider2::-webkit-slider-runnable-track {
+input[type=range].rgb#slider2::-webkit-slider-runnable-track {
   background: #0F0;
 }
-input[type=range]#slider3::-webkit-slider-runnable-track {
+input[type=range].rgb#slider3::-webkit-slider-runnable-track {
   background: #00F;
 }
+/*Sliders CMY : on ajoute les couleurs correspondantes sur les tracks*/
+input[type=range].cmy#slider1::-webkit-slider-runnable-track {
+  background: #0FF;
+}
+input[type=range].cmy#slider2::-webkit-slider-runnable-track {
+  background: #F0F;
+}
+input[type=range].cmy#slider3::-webkit-slider-runnable-track {
+  background: #FF0;
+}
+
 
 #menu-or-retry-zone{
   display: flex;

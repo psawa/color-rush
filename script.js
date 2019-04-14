@@ -11,7 +11,7 @@ let mainCarre = document.querySelector('#mainCarre');
 let playButton = document.querySelector('#playButton');
 let homeContent = document.querySelector('#home-content');
 let bpmAccueil = 130;
-let menuAudio = new Audio('audio/menu.mp3')
+let menuAudio = new Audio('audio/colorrush2.mp3')
 menuAudio.play();
 let selectMode = document.querySelector('#modeSelection')
 
@@ -52,12 +52,10 @@ let slidersZone = document.querySelector('#sliders-zone')
 let menuOrRetryZone = document.querySelector('#menu-or-retry-zone');
 let playAgainButton = document.querySelector('#play-again-button');
 let goToMenuButton = document.querySelector('#go-to-menu-button');
-let slider1 = document.querySelector('#slider1'); //R if Rgb, H if HSL...
-let valeur1 = document.querySelector('#valeur1');
-let slider2 = document.querySelector('#slider2'); //G if RGb, S if HSL..
-let valeur2 = document.querySelector('#valeur2');
-let slider3 = document.querySelector('#slider3'); //B if RGB, L if HSL..
-let valeur3 = document.querySelector('#valeur3');
+
+var valeur1 = '';
+var valeur2 = '';
+var valeur3 = '';
 
 //Élements persistents
 let container = document.querySelector('#container')
@@ -100,14 +98,15 @@ playAgainButton.addEventListener('click', function() {
 });
 goToMenuButton.addEventListener('click', function() {
   game.goToMenu()
+  affichage.deleteSliders();
 });
 
 
 
 //Jeu
-slider1.addEventListener('input', change1);
-slider2.addEventListener('input', change2);
-slider3.addEventListener('input', change3);
+// slider1.addEventListener('input', change1);
+// slider2.addEventListener('input', change2);
+// slider3.addEventListener('input', change3);
 //slider4.addEventListener('input', change4);
 
 /*
@@ -117,28 +116,37 @@ slider3.addEventListener('input', change3);
 */
 
 function change1(event) {
-  if (game.mode === 'rgb') {
     valeur1.innerHTML = event.target.value;
-  }
   updateMySquareColor();
 }
 
 function change2(event) {
-  if (game.mode === 'rgb') {
     valeur2.innerHTML = event.target.value;
-  }
   updateMySquareColor();
 }
 
 function change3(event) {
-  if (game.mode === 'rgb') {
     valeur3.innerHTML = event.target.value;
-  }
   updateMySquareColor();
 }
 
 function updateMySquareColor() {
-  mySquare.color = `rgb(${valeur1.innerHTML},${valeur2.innerHTML},${valeur3.innerHTML})`;
+  if (game.mode ==='rgb') {
+      mySquare.color = `rgb(${valeur1.innerHTML},${valeur2.innerHTML},${valeur3.innerHTML})`;
+  }
+  else if(game.mode==="hsl"){
+    mySquare.color = `hsl(${valeur1.innerHTML},${valeur2.innerHTML}%,${valeur3.innerHTML}%)`;
+  }
+  else if(game.mode==="cmy"){
+    let c = parseInt(valeur1.innerHTML);
+    let m = parseInt(valeur2.innerHTML);
+    let y = parseInt(valeur3.innerHTML);
+    let k = 0;
+
+    let code = CMYKtoRGB(c,m,y,k);
+    mySquare.color = `rgb(${code[0]},${code[1]},${code[2]})`;
+  }
+
 }
 
 function parseBpmIntoInterval(bpm) {
@@ -180,18 +188,37 @@ function parseIntoRgb(code, mode = game.mode) {
   //Convertit un code couleur en rgb
   //Puis renvoie les composantes
   //pour pouvoir effectuer le calcul de distance entre 2 couleurs
-  if (mode === "rgb") {
-    code = code.substr(4); //On extrait les caractères à partir du 4eme
-    code = code.substring(0, code.length - 1); //et on enlève le dernier
-    codeArray = code.split(','); //Et on transforme en tableau
-    return codeArray;
-  } else if (mode === "hsl") {
-    null
-  } else if (mode === "cmy") {
-    null
-  }
+  code = code.substr(4); //On extrait les caractères à partir du 4eme
+  code = code.substring(0, code.length - 1); //et on enlève le dernier
+  codeArray = code.split(','); //Et on transforme en tableau
+  return codeArray;
 }
+// function cmykToRgb(c, m, y, k) {
+//   var r, g, b;
+//   r = 255 - ((Math.min(1, c * (1 - k) + k)) * 255);
+//   g = 255 - ((Math.min(1, m * (1 - k) + k)) * 255);
+//   b = 255 - ((Math.min(1, y * (1 - k) + k)) * 255);
+//   return {r : r, g : g, b : b};
+// }
 
+function CMYKtoRGB(c,m,y,k){
+		var result = new Array();
+
+		c = c / 100;
+		m = m / 100;
+		y = y / 100;
+		k = k / 100;
+
+		result[0] = 1 - Math.min( 1, c * ( 1 - k ) + k );
+		result[1] = 1 - Math.min( 1, m * ( 1 - k ) + k );
+		result[2] = 1 - Math.min( 1, y * ( 1 - k ) + k );
+
+		result[0] = Math.round( result[0] * 255 );
+		result[1] = Math.round( result[1] * 255 );
+		result[2] = Math.round( result[2] * 255 );
+
+		return result;
+	}
 
 function rgb2lab(rgb) {
   var r = rgb[0] / 255,
@@ -260,6 +287,7 @@ let game = {
     //Quand le temps est imparti, ou quand il valide
     //appelle parseIntoRgb
     let distance = deltaE(targetComponentsLab, myComponentsLab).toFixed(2); //merci github
+    console.log(distance);
     this.currentDistance = distance;
     affichage.checking();
     setTimeout(function() {
@@ -280,7 +308,13 @@ let game = {
     roundAudios[this.level-1].play();
     document.querySelector('#current-level').innerHTML = this.level;
     targetSquare.randomColor();
-    mySquare.color = 'rgb(255,255,255)';
+    if (game.mode==='cmy') {
+      mySquare.color = 'rgb(255,255,255)';
+    }
+    else{
+      mySquare.color = 'rgb(0,0,0)';
+
+    }
     timer.newTimer();
   },
   lose: function() {
@@ -309,6 +343,11 @@ let game = {
       game.nextLevel();
     }, 1000)
 
+
+
+
+
+
   },
   start: function() {
     //Démarre le jeu (musique, etc..)
@@ -317,6 +356,9 @@ let game = {
     document.querySelector('#explications').style.display = 'none';
     gameContent.style.display='none';
     gameAudio.play();
+    if (this.state ==="menu") {
+      affichage.newSliders();
+    }
     setTimeout(function() {
       affichage.newMessage('Ready ?')
     }, 100)
@@ -340,6 +382,7 @@ let game = {
     }, 2400)
     setTimeout(function() {
       affichage.newMessage('GO');
+
       game.nextLevel();
       gameContent.style.display = '';
       affichage.clear()
@@ -358,6 +401,7 @@ let game = {
       gameContent.style.display = 'none';
       homeContent.style.display = '';
       document.querySelector('#explications').style.display = ''
+      this.state = 'menu';
     }
   }
 }
@@ -441,6 +485,7 @@ let affichage = {
   },
   newPercentage: function() {
     let newPercentageDiv = document.createElement('p');
+    console.log(game.currentDistance);
     let newPercentage = document.createTextNode(100-game.currentDistance + '%');
     newPercentageDiv.appendChild(newPercentage);
     newPercentageDiv.classList.add('percentage');
@@ -448,17 +493,112 @@ let affichage = {
     newPercentageDiv.style.marginLeft = `-${newPercentageDiv.offsetWidth/2}px`;
     newPercentageDiv.style.marginTop = `-${newPercentageDiv.offsetHeight/2}px`;
   },
+  deleteSliders: function(){
+    slidersZone.parentNode.removeChild(slidersZone);
+  },
   newSliders: function(mode = game.mode) {
     //Crée les sliders adapté au mode sélectionné
     //Appelée une fois au début de la partie
+    let slidersZoneTemp = document.createElement('div');
+    slidersZoneTemp.setAttribute('id','sliders-zone');
+
+    let divSlider1Temp = document.createElement('div');
+
+    let tag1Temp = document.createElement('i');
+    divSlider1Temp.appendChild(tag1Temp);
+
+    let slider1Temp = document.createElement('input');
+    slider1Temp.setAttribute('type','range');
+    slider1Temp.setAttribute('id','slider1');
+    slider1Temp.setAttribute('min','0');
+    slider1Temp.setAttribute('value','0')
+    divSlider1Temp.appendChild(slider1Temp);
+
+    let valeur1Temp = document.createElement('i');
+    valeur1Temp.appendChild(document.createTextNode('0'));
+    valeur1Temp.setAttribute('id','valeur1')
+    divSlider1Temp.appendChild(valeur1Temp);
+    slidersZoneTemp.appendChild(divSlider1Temp);
+    slider1Temp.addEventListener('input',change1)
+
+    slidersZoneTemp.appendChild(divSlider1Temp);
+
+    let divSlider2Temp = document.createElement('div');
+
+    let tag2Temp = document.createElement('i');
+    divSlider2Temp.appendChild(tag2Temp);
+
+    let slider2Temp = document.createElement('input');
+    slider2Temp.setAttribute('type','range');
+    slider2Temp.setAttribute('id','slider2');
+    slider2Temp.setAttribute('min','0');
+    slider2Temp.setAttribute('value','0')
+    divSlider2Temp.appendChild(slider2Temp);
+
+    let valeur2Temp = document.createElement('i');
+    valeur2Temp.appendChild(document.createTextNode('0'));
+    valeur2Temp.setAttribute('id','valeur2')
+    divSlider2Temp.appendChild(valeur2Temp);
+    slidersZoneTemp.appendChild(divSlider2Temp);
+    slider2Temp.addEventListener('input',change2)
+
+    slidersZoneTemp.appendChild(divSlider2Temp);
+
+    let divSlider3Temp = document.createElement('div');
+
+    let tag3Temp = document.createElement('i');
+    divSlider3Temp.appendChild(tag3Temp);
+
+    let slider3Temp = document.createElement('input');
+    slider3Temp.setAttribute('type','range');
+    slider3Temp.setAttribute('id','slider3');
+    slider3Temp.setAttribute('min','0');
+    slider3Temp.setAttribute('value','0')
+    divSlider3Temp.appendChild(slider3Temp);
+
+    let valeur3Temp = document.createElement('i');
+    valeur3Temp.appendChild(document.createTextNode('0'));
+    valeur3Temp.setAttribute('id','valeur3')
+    divSlider3Temp.appendChild(valeur3Temp);
+    slidersZoneTemp.appendChild(divSlider3Temp);
+    slider3Temp.addEventListener('input',change3)
+
+    slidersZoneTemp.appendChild(divSlider3Temp);
+
+    squaresZone.after(slidersZoneTemp);
+    valeur1 = document.querySelector('#valeur1');
+    valeur2 = document.querySelector('#valeur2');
+    valeur3 = document.querySelector('#valeur3');
+
+    slidersZone = document.querySelector('#sliders-zone');
+
     if (mode === "rgb") {
-      null;
-    } else if (mode === "rgba") {
-      null;
+      tag1Temp.appendChild(document.createTextNode('R'));
+      slider1Temp.setAttribute('max','255');
+      slider1Temp.classList.add('rgb');
+      tag2Temp.appendChild(document.createTextNode('G'));
+      slider2Temp.setAttribute('max','255');
+      slider2Temp.classList.add('rgb');
+      tag3Temp.appendChild(document.createTextNode('B'));
+      slider3Temp.setAttribute('max','255');
+      slider3Temp.classList.add('rgb');
     } else if (mode === "hsl") {
-      null;
-    } else if (mode === "cmj") {
-      null;
+      tag1Temp.appendChild(document.createTextNode('H'));
+      slider1Temp.setAttribute('max','360');
+      tag2Temp.appendChild(document.createTextNode('S'));
+      slider2Temp.setAttribute('max','100');
+      tag3Temp.appendChild(document.createTextNode('L'));
+      slider3Temp.setAttribute('max','100');
+    } else if (mode === "cmy") {
+      tag1Temp.appendChild(document.createTextNode('C'));
+      slider1Temp.setAttribute('max','100');
+      slider1Temp.classList.add('cmy');
+      tag2Temp.appendChild(document.createTextNode('M'));
+      slider2Temp.setAttribute('max','100');
+      slider2Temp.classList.add('cmy');
+      tag3Temp.appendChild(document.createTextNode('Y'));
+      slider3Temp.setAttribute('max','100');
+      slider3Temp.classList.add('cmy');
     }
   },
   lose: function() {
@@ -497,9 +637,9 @@ let affichage = {
     if (document.querySelector('.percentage') != null) {
       document.querySelector('.percentage').parentNode.removeChild(document.querySelector('.percentage'));
     }
-    valeur1;innerHTML='255';
-    valeur2;innerHTML='255';
-    valeur3;innerHTML='255';
+    // valeur1;innerHTML='0';
+    // valeur2;innerHTML='0';
+    // valeur3;innerHTML='0';
     document.querySelector('#time-zone').style.visibility = '';
     squaresZone.style.transform = 'translateY(0)';
     squaresZone.style.display='';
@@ -511,12 +651,13 @@ let affichage = {
     checkButton.style.visibility = '';
     slidersZone.style.transform = 'translateY(0px)';
     slidersZone.style.display = '';
-    slider1.value = '255';
-    valeur1.innerHTML = '255';
-    slider2.value = '255';
-    valeur2.innerHTML = '255';
-    slider3.value = '255';
-    valeur3.innerHTML = '255';
+    slider1.value = 0;
+    slider2.value = 0;
+    slider3.value = 0;
+    valeur1.innerHTML= 0;
+    valeur2.innerHTML= 0;
+    valeur3.innerHTML= 0;
+
 
   }
 }
