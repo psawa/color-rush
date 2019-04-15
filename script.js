@@ -11,7 +11,7 @@ let mainCarre = document.querySelector('#mainCarre');
 let playButton = document.querySelector('#playButton');
 let homeContent = document.querySelector('#home-content');
 let bpmAccueil = 130;
-let menuAudio = new Audio('audio/colorrush2.mp3')
+let menuAudio = new Audio('audio/menu.mp3')
 menuAudio.play();
 let selectMode = document.querySelector('#modeSelection')
 
@@ -108,7 +108,7 @@ playAgainButton.addEventListener('click', function() {
 });
 goToMenuButton.addEventListener('click', function() {
   game.goToMenu()
-  affichage.deleteSliders();
+
 });
 
 
@@ -186,7 +186,13 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function parseIntoRgb(code, mode = game.mode) {
+function randomChoice(array) {
+  //Make random choice within an array
+  let index = Math.floor(Math.random() * array.length);
+  return array[index];
+}
+
+function parseIntoRgb(code) {
   //valeurs possibles de mode : rgba, hsl, cmj
   //Convertit un code couleur en rgb
   //Puis renvoie les composantes
@@ -290,7 +296,7 @@ let game = {
     //Quand le temps est imparti, ou quand il valide
     //appelle parseIntoRgb
     let distance = deltaE(targetComponentsLab, myComponentsLab) //merci github
-    this.currentDistance = distance.toFixed(2);
+    this.currentDistance = parseFloat(distance.toFixed(2));
     affichage.checking();
     setTimeout(function() {
       if (game.currentDistance <= game.seuil) {
@@ -403,10 +409,13 @@ let game = {
   },
   goToMenu: function() {
     if (this.state != 'menu') {
+      affichage.deleteSliders();
+      affichage.cancelBounce();
       playList.quit();
       menuAudio.play();
       gameContent.style.display = 'none';
       homeContent.style.display = '';
+      container.style.background = '';
       document.querySelector('#explications').style.display = ''
       this.state = 'menu';
     }
@@ -467,6 +476,7 @@ const targetSquare = new Square(targetSquareElement);
 
 let affichage = {
   bounceIntervalVar: null,
+  colors:['#4a148c','#1a237e','#311b92','#880e4f','#0d47a1','#01579b','#006064','#004d40','#1b5e20','#33691e','#bf360c','#3e2723'], //Some flat colors for the animation
   checking: function() {
     checkButton.style.visibility = 'hidden';
     slidersZone.style.transform = 'translateY(300px)';
@@ -662,9 +672,8 @@ let affichage = {
     if (document.querySelector('.percentage') != null) {
       document.querySelector('.percentage').parentNode.removeChild(document.querySelector('.percentage'));
     }
-    // valeur1;innerHTML='0';
-    // valeur2;innerHTML='0';
-    // valeur3;innerHTML='0';
+    container.style.background = '';
+
     document.querySelector('#time-zone').style.visibility = '';
     squaresZone.style.transform = 'translateY(0)';
     squaresZone.style.display='';
@@ -696,10 +705,7 @@ let affichage = {
     console.log('Bounce function launched');
     this.bounceIntervalVar = setInterval(()=>{
       if (game.state !="menu") {
-        let randomR = randomInt(150, 255);
-        let randomG = randomInt(150, 255);
-        let randomB = randomInt(150, 255);
-          container.style.background = `linear-gradient(#010101,rgba(${randomR},${randomG},${randomB},0.4))`;
+          container.style.background = `linear-gradient(#010101,${randomChoice(this.colors)})`;
       }
     },this.bounceInterval)
   },
