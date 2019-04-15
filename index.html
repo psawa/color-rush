@@ -58,7 +58,8 @@
   <div class="seconde-partie">
     <div id="explications">
       <h1>Notes sur le jeu : </h1>
-      <p>Color Rush est un jeu de perception et de vitesse, basé sur la reproduction de couleurs.</p>
+      <p>Dernière modif : 15/04/2019</p>
+      <p>Color Rush est un jeu de perception et de vitesse, basé sur la reproduction de couleurs. C'est un projet universitaire créé dans le cadre de l'enseignement "Imagerie numérique" dispensée par Patrick Reuter.</p>
       <h2>Règles</h2>
       <p>À chaque niveau, vous avez un temps limité pour reproduire une couleur en utilisant des curseurs. Mais le temps alloué se réduit en accédant à des niveaux supérieurs.<p>
       <p>À la fin du temps imparti, l'algorithme <a href="#algorithme">(décrit plus tard)</a>  calculera la distance entre la couleur que vous avez créé, et celle que vous auriez du créer. Pour accéder au niveau suivant, il faut que cette distance soit inférieure à 20%. Donc les couleurs doivent se ressembler à au moins 80%.</p>
@@ -79,6 +80,7 @@
           <li>L'objet Affichage</li>
           <li>Les objets "Mon carré" et "Carré cible", issus de la classe Carré</li>
           <li>L'objet Compte à rebours</li>
+          <li>L'objet PLaylist</li>
         </ul>
       </p>
       <h4>l'objet "game"</h4>
@@ -86,7 +88,7 @@
       <p> En plus d'effectuer tous les calculs, il appelle les fonctions graphiques et audio qui donnent l'interactivité du jeu.</p>
       <p>Un exemple de property de cet objet est le "get gameMode()"", qui récupére en temps réel le mode de jeu sélectionné par l'utilisateur.</p>
       <h4>l'objet "affichage"</h4>
-      <p>Ses méthodes sont appelées par l'objet "game" au moment adéquat.</p>
+      <p>Ses méthodes sont appelées par l'objet "game", et par l'objet "Playlist" au moment adéquat.</p>
       <p>Il se charge des animations, comme par exemple celle qui appraît lorsque le temps est écoulé, ou lors de défaite, etc. tous les éléments graphiques sont manipulés par cet objet. C'est notament une méthode de cet objet qui initialise la forme du terrain de jeu avant de commencer une nouvelle partie : positions, valeurs d'affichages..</p>
       <p>Une de ses méthodes très importantes est "newMessage" : Elle permet d'afficher les messages qui apparaissent en grand au milieu de l'écran, souvent accompagnés d'une voix. Une manipulation des propriétés d'affichages de transformation et de filtres, et de création/suppression d'éléments du DOM (document object model) ont permis de donner un effet léger et très dynamique à ces messages. Vous pouvez essayer, depuis la console, en entrant " affichage.newMessage(votreMessage)  "  (Ils s'affichent dans la zone de jeu !)</p>
       <h4>La classe Square</h4>
@@ -95,7 +97,9 @@
       <p>Elle possède également une méthode définissant une couleur aléatoire, utilisé pour changer la couleur du carré cible lors du passage à un niveau supérieur.</p>
       <h4>l'objet "timer"</h4>
       <p>Il gère le temps à chaque niveau. Il définit quel est le temps alloué, et renvoie à la méthode de l'objet jeu qui vérifie les scores, lorsque le temps est écoulé ou lorsqu'il est arrêté manuellement, quand l'utilisateur appuie sur le bouton Check.</p>
-
+      <h4>L'objet playlist</h4>
+      <p>C'est lui qui gère le défilement des musiques, et le lancement des animations qui suivent le rythme de la musique.</p>
+      <p>Chaque musique du jeu est le premier élement d'un tableau à trois éléments. Les deux autres sont le BPM (Nombre de battements par minute), et le timeCode du moment ou le drop de la musique arrive (Quand le rithme devient épique). Ainsi l'objet playlist s'appuyant sur ces 3 données, calcule le moment où l'animation du DROP (animation qui rend le jeu épique) doit être lancée à partir du moment ou une musique a commencé, et à quelle fréquence elle doit se répéter pour être en rythme. Il s'occupe aussi d'arrêter l'animation lorsque la musique se finit, et de lancer la musique suivante. </p>
 
       <h3 id="algorithme">Algorithme de calcul de ressemblance des couleurs</h3>
       <p>Avant d'entrer dans les explications, il faut noter que quelque soit l'espace de couleur utilisé pour produire des couleurs à l'écran, le navigateur effectuera une conversion et les affichera en RGB, systématiquement. Les calculs de distances seront donc indépendants du mode de jeu choisi.</p>
@@ -118,6 +122,7 @@
       <p>Les tranlations sont utilisées pour déplacer les carrés lors des animations pour la vérification des distances de couleur, de défaite, et bien sûr dans la fonction "clear" qui réinitialise le terrain de jeu.</p>
       <h4>La rotation </h4>
       <p>Elle a été utilisée uniquement pour fabriquer la flèche qui pointe vers le bas dans le menu : C'est une div carrée qui n'a que deux "border" contigus, et qui a été rotationnée de 45°.</p>
+
       <h3 id="espaces-couleur">Espaces de couleur</h3>
       <p>Les modes de jeu proposés correspondent à 3 espaces de couleur : Rgb, HSL, et CMJ. Nous n'avons pas inclut l'espace RGBA car il requiert une quatrième composante, ce qui était laborieux à mettre en place.</p>
       <h4>RGB</h4>
@@ -140,6 +145,13 @@
       <p>D'abbord les musiques d'ambiance. Celle de l'accueil a été crée par Thibo, et celles du jeu par TPRMX.</p>
       <p>Ensuite, lors du compte à rebours, lors du passage à un niveau supérieur, et lors de l'annonce de la ressemblance des couleurs, des voix sont joués correspondante à la situation. Par exemple, l'algorithme de vérification des résultats est prévu pour lancer l'audio d'une voix qui crie "Perfect ! " si le pourcentage d'erreurs est inferieur à 3%, "GREAT ! " si inférieur à 6%, etc.</p>
       <p>Tout cela est rendu possible grâce à la création d'objets audio ayant pour source le lien relatif du fichier audio. Ensuite, il faut appler la méthode play de cet objet pour lancer l'audio, la méthode pause pour le couper, la méthode set currentTime pour définir le time code de l'audio, le tout mélangé à des events listeners pour donner un résultat intéressant.</p>
+      <h3>Notre part de travail</h4>
+      <p>Tout à été créé à partir de zéro pour ce projet, excepté deux choses : </p>
+      <ul>
+        <li>La fonction qui calcule la distance entre deux couleurs CIELAB, et la fonction qui convertit rgb en CIELAB. <a href="https://github.com/antimatter15/rgb-lab/blob/master/color.js">(c'est du code open source)</a></li>
+        <li>/!\ SPOILER /!\ La fonction qui anime les confetti lors de la victoire.<a href="https://codepen.io/andrewwwcollins/pen/KQeXrX">(Trouvée sur Codepen)</a> </li>
+      </ul>
+      <p>Néanmoins, nous avons pris soin de comprendre ces morceaux de code,  et de les modifier pour qu'ils s'adaptent à notre projet. </p>
       <h2>Limites & horizons</h2>
       <h3>limites</h3>
       <h4>Sécurité</h4>

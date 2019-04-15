@@ -112,13 +112,6 @@ goToMenuButton.addEventListener('click', function() {
 });
 
 
-
-//Jeu
-// slider1.addEventListener('input', change1);
-// slider2.addEventListener('input', change2);
-// slider3.addEventListener('input', change3);
-//slider4.addEventListener('input', change4);
-
 /*
 ########################
 #######Fonctions########
@@ -178,7 +171,7 @@ function animateMainCarre() {
     let randomB = randomInt(0, 255);
     //change le carré et le fond de couleur en rythme
     mainCarre.style.backgroundColor = `rgb(${randomR},${randomG},${randomB})`;
-    container.style.background = `linear-gradient(rgba(${randomR},${randomG},${randomB},0.01),#00163a)`;
+
     mainCarre.style.transform = 'scale(1.02)';
     //Animation du carré qui grossit
     setTimeout(function() {
@@ -296,9 +289,8 @@ let game = {
     //Vérifie le % d'erreur du joueur pour le niveau
     //Quand le temps est imparti, ou quand il valide
     //appelle parseIntoRgb
-    let distance = deltaE(targetComponentsLab, myComponentsLab).toFixed(2); //merci github
-    console.log(distance);
-    this.currentDistance = distance;
+    let distance = deltaE(targetComponentsLab, myComponentsLab) //merci github
+    this.currentDistance = distance.toFixed(2);
     affichage.checking();
     setTimeout(function() {
       if (game.currentDistance <= game.seuil) {
@@ -451,7 +443,6 @@ let timer = {
 class Square {
   constructor(DomElement) {
     this.element = DomElement;
-    this.bounceIntervalVar = null;
   }
   set color(color) {
     //remplit d'une certaine couleur
@@ -459,25 +450,6 @@ class Square {
   }
   get color() {
     return this.element.style.backgroundColor;
-  }
-  get bounceInterval(){
-    return parseBpmIntoInterval(playList.currentBpm);
-  }
-  bounce() {
-    console.log('Bounce function launched');
-    this.bounceIntervalVar = setInterval(()=>{
-      if (game.state === 'playing' || game.state==='checking') {
-        this.element.style.transform = 'scale(1.02)';
-        //Animation du carré qui grossit
-        setTimeout(()=> {
-          this.element.style.transform = 'scale(1)';
-        },50)
-      }
-    },this.bounceInterval)
-  }
-
-  cancelBounce(){
-    clearInterval(this.bounceIntervalVar);
   }
 
   randomColor() {
@@ -494,7 +466,7 @@ const targetSquare = new Square(targetSquareElement);
 
 
 let affichage = {
-  //Créer des attribus correspondant à la structure de la page
+  bounceIntervalVar: null,
   checking: function() {
     checkButton.style.visibility = 'hidden';
     slidersZone.style.transform = 'translateY(300px)';
@@ -513,7 +485,7 @@ let affichage = {
   newPercentage: function() {
     let newPercentageDiv = document.createElement('p');
     let percentage = 100-game.currentDistance;
-    console.log(game.currentDistance);
+    console.log(percentage);
     let newPercentage = document.createTextNode( percentage + '%');
     newPercentageDiv.appendChild(newPercentage);
     newPercentageDiv.classList.add('percentage');
@@ -715,6 +687,25 @@ let affichage = {
     if (game.state ==="win") {
       cancelAnimationFrame(confettiRain);
     }
+  },
+
+  get bounceInterval(){
+    return parseBpmIntoInterval(playList.currentBpm);
+  },
+  bounce: function() {
+    console.log('Bounce function launched');
+    this.bounceIntervalVar = setInterval(()=>{
+      if (game.state !="menu") {
+        let randomR = randomInt(150, 255);
+        let randomG = randomInt(150, 255);
+        let randomB = randomInt(150, 255);
+          container.style.background = `linear-gradient(#010101,rgba(${randomR},${randomG},${randomB},0.4))`;
+      }
+    },this.bounceInterval)
+  },
+
+  cancelBounce(){
+    clearInterval(this.bounceIntervalVar);
   }
 }
 
@@ -738,8 +729,8 @@ let playList = {
     this.playCurrentTrack();
   },
   nextTrack: function(){
-    mySquare.cancelBounce();
-    targetSquare.cancelBounce();
+    affichage.cancelBounce();
+    container.style.background = '';
     clearTimeout(this.currentDropTimeOut);
     this.currentTrack[0].currentTime = 0;
     this.currentTrack[0].pause();
@@ -761,8 +752,7 @@ let playList = {
     console.log('Playcurrent track appelé');
     this.currentTrack[0].play();
     this.currentDropTimeOut = setTimeout(()=>{
-      mySquare.bounce();
-      targetSquare.bounce();
+    affichage.bounce();
     },this.currentTrack[2]*1000)
   }
 }
