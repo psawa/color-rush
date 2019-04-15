@@ -45,8 +45,8 @@ let music1 = [new Audio('audio/music1.mp3'),140,18.2]; //file, bpm, drop-timecod
 let music2 = [new Audio('audio/music2.mp3'),163.5,23];
 let music3 = [new Audio('audio/music3.mp3'),120,4];
 let music4 = [new Audio('audio/music4.mp3'),120,15.1];
-let music5 = [new Audio('audio/music5.mp3'),143,14.3];
-let music6 = [new Audio('audio/music6.mp3'),152,18.3];
+let music5 = [new Audio('audio/music5.mp3'),151,14.3];
+let music6 = [new Audio('audio/music6.mp3'),141,18];
 let music7 = [new Audio('audio/music7.mp3'),133,28];
 
 let testAudio = [new Audio('audio/test.mp3'),200,"dropTimeCode"];
