@@ -41,6 +41,8 @@ roundAudios[7] = new Audio('audio/round8.mp3');
 roundAudios[8] = new Audio('audio/round9.mp3');
 roundAudios[9] = new Audio('audio/finalRound.mp3');
 //Musiques de playlist
+//Sont des tableaux dont les 3 elements sont :
+//objet audio, BPM, timecode du DROP
 let music1 = [new Audio('audio/music1.mp3'),140,18.2]; //file, bpm, drop-timecode
 let music2 = [new Audio('audio/music2.mp3'),163.5,23];
 let music3 = [new Audio('audio/music3.mp3'),120,4];
@@ -78,7 +80,7 @@ let blinkingInterval = null;
 */
 
 //Accueil
-menuAudio.addEventListener('play', animateMainCarre)
+menuAudio.addEventListener('play', animateMainCarre);
 menuAudio.addEventListener('ended', function() {
   //redémarre la musique de l'accueil lorsqu'elle est finie
   clearInterval(blinkingInterval);
@@ -95,7 +97,7 @@ playButton.addEventListener('click', function() {
   //L'animation de l'accueil s'arrête
   clearInterval(blinkingInterval);
 
-  //On lance le joueur
+  //On lance le jeu
   game.start();
 })
 checkButton.addEventListener('click', function() {
@@ -286,19 +288,22 @@ let game = {
   maxLevel: 10,
   currentDistance: null,
   checkResult: function() {
+    //Vérifie le % d'erreur du joueur pour le niveau
+    //Quand le temps est imparti, ou quand il valide manuellement
     game.state = 'checking';
+    //Récupération des couleurs
     let targetComponentsRgb = parseIntoRgb(targetSquare.color);
     let myComponentsRgb = parseIntoRgb(mySquare.color);
+    //Conversion en LAB
     let targetComponentsLab = rgb2lab(targetComponentsRgb);
     let myComponentsLab = rgb2lab(myComponentsRgb);
-
-    //Vérifie le % d'erreur du joueur pour le niveau
-    //Quand le temps est imparti, ou quand il valide
-    //appelle parseIntoRgb
-    let distance = deltaE(targetComponentsLab, myComponentsLab) //merci github
+    //Calcul de la distance entre les deux couleurs LAB
+    let distance = deltaE(targetComponentsLab, myComponentsLab);
     this.currentDistance = parseFloat(distance.toFixed(2));
+    //Appel de la fonction qui affiche le résultat
     affichage.checking();
     setTimeout(function() {
+      //renvoie aux fonctions correspondantes en fonction du résultat
       if (game.currentDistance <= game.seuil) {
         game.levelWin();
       } else {
@@ -308,17 +313,25 @@ let game = {
   },
   nextLevel: function() {
     game.state = "playing";
+    //Si le niveau gagné était le niveau maximum
     if (this.level === this.maxLevel) {
+      //alors gagné
       this.state = "win";
       this.gameWin();
       // Affiche l'écran de gagné
     }
     else{
+      //sinon juste passage au niveau suivant.
       this.level += 1;
       affichage.clear();
+      //La voix annonce le numéro du round
       roundAudios[this.level-1].play();
       document.querySelector('#current-level').innerHTML = this.level;
+      //Nouvelle couleur
       targetSquare.randomColor();
+      //On initialise la couleur de départ du carré du joueur
+      //En fonction du mode
+      //Car rgb = additif, et cmy = soustractif
       if (game.mode==='cmy') {
         mySquare.color = 'rgb(255,255,255)';
       }
@@ -326,6 +339,7 @@ let game = {
         mySquare.color = 'rgb(0,0,0)';
 
       }
+      //Lancement du timer
       timer.newTimer();
     }
   },
@@ -337,6 +351,7 @@ let game = {
   },
   levelWin: function() {
     //Quand on a atteint le level max
+    //Affiche le message correspondant à la performance du joueur
     if (game.currentDistance > 15) {
       affichage.newMessage('Ok !')
     } else if(game.currentDistance>10){
@@ -368,6 +383,9 @@ let game = {
     document.querySelector('#explications').style.display = 'none';
     gameContent.style.display='none';
     if (this.state ==="menu") {
+      //Si on vient du menuAudio
+      //i.e possiblement le mode de jeu à changé
+      //On initialise les sliders
       affichage.newSliders();
     }
     setTimeout(function() {
@@ -408,6 +426,7 @@ let game = {
     return selectMode.options[selectMode.selectedIndex].value;
   },
   goToMenu: function() {
+    //Retourner au menu après une partie
     if (this.state != 'menu') {
       affichage.deleteSliders();
       affichage.cancelBounce();
@@ -423,26 +442,28 @@ let game = {
 }
 
 let timer = {
+  //Les valeurs du temps niveau par niveau
   values: [30, 27, 24, 20, 17, 14, 12,10, 8, 7],
   interval: null,
   get currentTime() {
+    //renvoie le temps aloué pour le niveau actuel
     return this.values[game.level - 1];
   },
   newTimer: function() {
+    //Lance le timer
     let sec = this.currentTime;
     this.setTime(sec);
     this.interval = setInterval(function() {
       sec -= 1;
       timer.setTime(sec);
       if (sec === 0) {
+        //Le timer s'arrête
         clearInterval(timer.interval);
         timeUpAudio.play();
+        //Vérification de la distance des couleurs
         game.checkResult();
       }
     }, 1000)
-  },
-  timeGoesBy: function() {
-
   },
   setTime: function(time) {
     document.querySelector('#current-time').innerHTML = time;
@@ -451,6 +472,7 @@ let timer = {
 
 class Square {
   constructor(DomElement) {
+    //Récupération de l'élément dom pour manipulation
     this.element = DomElement;
   }
   set color(color) {
@@ -458,10 +480,13 @@ class Square {
     this.element.style.backgroundColor = color;
   }
   get color() {
+    //Renvoie la couleur actuelle
     return this.element.style.backgroundColor;
   }
 
   randomColor() {
+    //remplit d'une couleur aléatoire
+    //utilisé pour le carré cible
     let randomR = randomInt(0, 255);
     let randomG = randomInt(0, 255);
     let randomB = randomInt(0, 255);
@@ -469,6 +494,7 @@ class Square {
   }
 }
 
+//Instanciation des deux seuls et uniques carrés du jeu
 const mySquare = new Square(mySquareElement);
 const targetSquare = new Square(targetSquareElement);
 
@@ -476,7 +502,9 @@ const targetSquare = new Square(targetSquareElement);
 
 let affichage = {
   bounceIntervalVar: null,
-  colors:['#4a148c','#1a237e','#311b92','#880e4f','#0d47a1','#01579b','#006064','#004d40','#1b5e20','#33691e','#bf360c','#3e2723'], //Some flat colors for the animation
+  //Différentes couleurs pour l'animation de l'arrière plan :
+  colors:['#4a148c','#1a237e','#311b92','#880e4f','#0d47a1','#01579b','#006064','#004d40','#1b5e20','#33691e','#bf360c','#3e2723'],
+  //Animation pour la vérification des résultats :
   checking: function() {
     checkButton.style.visibility = 'hidden';
     slidersZone.style.transform = 'translateY(300px)';
@@ -493,6 +521,7 @@ let affichage = {
     }, 3000);
   },
   newPercentage: function() {
+    //Affiche le résultat du joueur
     let newPercentageDiv = document.createElement('p');
     let percentage = (100-game.currentDistance).toFixed(2).toString()+'%';
     console.log(percentage);
@@ -504,10 +533,12 @@ let affichage = {
     newPercentageDiv.style.marginTop = `-${newPercentageDiv.offsetHeight/2}px`;
   },
   deleteSliders: function(){
+    //Supprime les slider
+    //appelée lors du retour au menu
     slidersZone.parentNode.removeChild(slidersZone);
   },
   newSliders: function(mode = game.mode) {
-    //Crée les sliders adapté au mode sélectionné
+    //Crée les sliders adaptés au mode sélectionné
     //Appelée une fois au début de la partie
     let slidersZoneTemp = document.createElement('div');
     slidersZoneTemp.setAttribute('id','sliders-zone');
@@ -582,6 +613,12 @@ let affichage = {
 
     slidersZone = document.querySelector('#sliders-zone');
 
+    //En fonction du mode, on modifie les max et les étiquettes des slidersZone
+    //Car en HSl les sliders vont de 0 à 360, et de 0 à 100
+    //Alors qu'en rgb les sliders vont de 0 à 255
+    //
+    //Ajoute aussi les classes en fonction du mode
+    //Pour les couleurs des tracks des sliders
     if (mode === "rgb") {
       tag1Temp.appendChild(document.createTextNode('R'));
       slider1Temp.setAttribute('max','255');
@@ -611,6 +648,7 @@ let affichage = {
       slider3Temp.classList.add('cmy');
     }
   },
+  //animation lorsque le joueur perd
   lose: function() {
     document.querySelector('#cibleTag').style.visibility = 'hidden';
     document.querySelector('#monCarreTag').style.visibility = 'hidden';
@@ -630,7 +668,8 @@ let affichage = {
     targetSquare.color = '#666';
     mySquare.color = '#666';
   },
-
+  //Affiche un grand message dynamique et temporaire au milieu de l'écran
+  //Prend en paramètre le message
   newMessage: function(message) {
     let newMessageDiv = document.createElement('p');
     let newMessage = document.createTextNode(message);
@@ -643,11 +682,10 @@ let affichage = {
       newMessageDiv.parentNode.removeChild(newMessageDiv);
     }, 1400)
   },
-
+  //Animation lorsque le joueur gagne (atteint le niveau 10)
   gameWin:function(){
     confettiRain();
     playList.quit();
-    // currentAudio.pause()
     gameWinAudio.play();
     document.querySelector('#cibleTag').style.visibility = 'hidden';
     document.querySelector('#monCarreTag').style.visibility = 'hidden';
@@ -667,7 +705,8 @@ let affichage = {
     targetSquare.color = '#f2f200';
     mySquare.color = '#f2f200';
   },
-
+  //Prépare le terrain de jeu, appelé à chaque round
+  //Replaces les élements aux bonnes positions etc.
   clear: function() {
     if (document.querySelector('.percentage') != null) {
       document.querySelector('.percentage').parentNode.removeChild(document.querySelector('.percentage'));
@@ -697,10 +736,12 @@ let affichage = {
       cancelAnimationFrame(confettiRain);
     }
   },
-
+  //Renvoie l'intervale pour l'animation
+  //adapté au rythme de la musique actuelle
   get bounceInterval(){
     return parseBpmIntoInterval(playList.currentBpm);
   },
+  //Lance l'animation sur la musique
   bounce: function() {
     console.log('Bounce function launched');
     this.bounceIntervalVar = setInterval(()=>{
@@ -715,7 +756,7 @@ let affichage = {
   }
 }
 
-
+//Objet playlist: gère les musiques et les animations musicales
 let playList = {
   tracks: [music1,music2,music3,music5,music6,music7],
   currentTrackNumber:0,
@@ -726,8 +767,10 @@ let playList = {
   get currentBpm(){
     return this.currentTrack[1];
   },
+  //Initialise et démarre la playist
   launch:function(){
     for (let i = 0; i < this.tracks.length; i++) {
+      //Lorsque une musique se finit on lance la deuxième
       this.tracks[i][0].addEventListener('ended',()=>{
         this.nextTrack();
       });
@@ -735,6 +778,8 @@ let playList = {
     this.playCurrentTrack();
   },
   nextTrack: function(){
+    //Joue la musique suivante
+    //et adapte les animations a la nouvelle musique
     affichage.cancelBounce();
     container.style.background = '';
     clearTimeout(this.currentDropTimeOut);
@@ -749,13 +794,14 @@ let playList = {
     this.playCurrentTrack();
   },
   quit:function(){
+    //quite la playlist
     this.currentTrack[0].currentTime = 0;
     this.currentTrack[0].pause()
     this.currentTrackNumber = 0
   }
   ,
   playCurrentTrack: function(){
-    console.log('Playcurrent track appelé');
+    //joue la musique actuelle
     this.currentTrack[0].play();
     this.currentDropTimeOut = setTimeout(()=>{
     affichage.bounce();
