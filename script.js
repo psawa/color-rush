@@ -494,9 +494,9 @@ let affichage = {
   },
   newPercentage: function() {
     let newPercentageDiv = document.createElement('p');
-    let percentage = 100-game.currentDistance;
+    let percentage = (100-game.currentDistance).toFixed(2).toString()+'%';
     console.log(percentage);
-    let newPercentage = document.createTextNode( percentage + '%');
+    let newPercentage = document.createTextNode(percentage);
     newPercentageDiv.appendChild(newPercentage);
     newPercentageDiv.classList.add('percentage');
     squaresZone.appendChild(newPercentageDiv);
