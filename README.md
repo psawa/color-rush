@@ -1,4 +1,4 @@
-# color-rush
+# Color Rush
 Color Rush is a game of perception and speed, based on color reproduction. It is a university project created in the framework of the "Digital Imaging" teaching of my Bachelor of Applied Mathematics and Computer Science.
 
 It has been code using only plain javascript, html and css.
@@ -35,3 +35,24 @@ This formula mqkes the game pleasant to play because two colors that look simila
 
 The game then converts the colours from RGB to CIELAB, and calculates the distance between the two CIELAB colours using the above formula. I have used functions from [antimatter15's repository](https://github.com/antimatter15/rgb-lab/blob/master/color.js) for these two features.
 
+# Color spaces
+The proposed game modes correspond to 3 color spaces: RGB, HSL, and CMY.
+## RGB
+The RGB (red, green, blue) color space is an additive synthesis space, in which colors are defined by their amount of red, green, and blue (the 3 additive primary colors). The particularity of an additive space is that its function is to bring colors to a black background.
+
+RGB is a color space suitable for computer image synthesis, because the human visual system functions (almost) similarly.
+## HSL
+Abbreviation for Hue Saturation Lightness, the HSL space defines a color by its hue, saturation, and luminance.
+This space exists because it is easier to handle than the RGB space. Color selection is more intuitive. It is a psychological approach to color synthesis.
+
+Note that this space was originally invented during the transition from image to color: It allowed to encode images in color without profoundly modifying the already existing encoding technique: All that was needed was to add two components "hue" and "saturation" to the "light" component, which alone defined a grayscale image.
+
+## CMY
+The CMY (Cyan magenta yellow) space is contrary to RGB a subtractive space. It is mainly used in the field of printing.
+The characteristic of a subtractive space is that its function is to hide a white background. The ink reduces the brightness, and prevents the white from being reflected.
+
+In reality, printers use CMYK. The K, "key", is the black level. It is a question of economy, in order not to use the mixture of the 3 colors to form black, black which is very present in printing.
+
+## CIELAB
+L for lightness, A for Value on the green -> red axis, B for Value on the blue -> yellow axis.
+In the 3D LAB space, the Euclidean distance between two colours corresponds almost exactly to the difference as seen by the human eye.
