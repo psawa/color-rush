@@ -1,7 +1,7 @@
 # Color Rush
 Color Rush is a game of perception and speed, based on color reproduction. It is a university project created in the framework of the "Digital Imaging" teaching of my Bachelor of Applied Mathematics and Computer Science.
 
-It has been code using only plain javascript, html and css.
+It is made of plain javascript, html and css.
 ## Rules
 At each level, you have a limited amount of time to reproduce a color using sliders. But the time allowed gets shorter as you advance to higher levels.
 
