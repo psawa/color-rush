@@ -1,4 +1,6 @@
 # Color Rush
+**try it out !** https://psawa.github.io/color-rush/
+
 Color Rush is a game of perception and speed, based on color reproduction. It is a university project created in the framework of the "Digital Imaging" teaching of my Bachelor of Applied Mathematics and Computer Science.
 
 It is made of plain javascript, html and css.
