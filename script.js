@@ -12,7 +12,8 @@ let playButton = document.querySelector('#playButton');
 let homeContent = document.querySelector('#home-content');
 let bpmAccueil = 130;
 let menuAudio = new Audio('audio/menu.mp3')
-menuAudio.play();
+menuAudio.autoplay = true;
+menuAudio.load();
 let selectMode = document.querySelector('#modeSelection')
 
 //Éléments du jeu
